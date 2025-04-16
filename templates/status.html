@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Client Status</title>
+  <style>
+    body { font-family: sans-serif; padding: 1rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
+    th { background-color: #f2f2f2; }
+    .alive { color: green; }
+    .dead { color: red; }
+  </style>
+</head>
+<body>
+  <h1>Client Status</h1>
+  <table>
+    <tr>
+      <th>Client</th>
+      <th>Alive</th>
+      <th>Last Heartbeat</th>
+      <th>Measurement</th>
+      <th># Positions</th>
+      <th># Speeds</th>
+    </tr>
+    {% for client, status in clients.items() %}
+    <tr>
+      <td>{{ client }}</td>
+      <td class="{{ 'alive' if status.alive else 'dead' }}">{{ 'Yes' if status.alive else 'No' }}</td>
+      <td>{{ status.last_heartbeat or 'N/A' }}</td>
+      <td>{{ status.measurement }}</td>
+      <td>{{ status.position_count }}</td>
+      <td>{{ status.speed_count }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>
