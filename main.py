@@ -42,6 +42,14 @@ def run_iperf3(client_ip: str, bidirectional: bool) -> str:
 # A pool executor to handle multiple client requests in parallel
 executor = ThreadPoolExecutor(max_workers=10)
 
+
+
+
+@app.post("/ping")
+async def ping():
+    return {"message": "pong"}
+
+
 @app.post("/measure_client")
 async def measure_client(request: MeasurementRequest):
     client_name = request.client_name
