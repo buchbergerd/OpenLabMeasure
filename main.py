@@ -22,6 +22,8 @@ class MeasurementRequest(BaseModel):
     client_name: str
     client_ip: str
     bidirectional: bool
+    wp_number: int
+    extra_info: str
 
 
 def run_iperf3(client_ip: str, bidirectional: bool) -> str:
@@ -45,6 +47,8 @@ async def measure_client(request: MeasurementRequest):
     client_name = request.client_name
     client_ip = request.client_ip
     bidirectional = request.bidirectional
+    wp_number = request.wp_number
+    extra_info = request.extra_info
     
     # Run the iPerf3 command in a separate thread to avoid blocking the server
     loop = asyncio.get_event_loop()
@@ -76,6 +80,8 @@ async def measure_client(request: MeasurementRequest):
         return {
             "client_name": client_name,
             "client_ip": client_ip,
+            "wp_number": wp_number,
+            "extra_info": extra_info,
             "result": res
         }
     except Exception as e:
