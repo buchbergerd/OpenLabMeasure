@@ -60,15 +60,17 @@ async def measure_client(request: MeasurementRequest):
     
     # Run the iPerf3 command in a separate thread to avoid blocking the server
     loop = asyncio.get_event_loop()
+    time_start = time.time()
     result = await loop.run_in_executor(executor, run_iperf3, client_ip, bidirectional)
-    
+    print(f"Got iPerf result after {round(time.time() - time_start, 2)} s")
+
     # Parse the JSON result
     try:
         data = json.loads(result)
 
         res = {
             "start_time": data["start"]["timestamp"]["time"],
-            "iperf_version": data["start"]["test_start"]["protocol"],
+            "protocol": data["start"]["test_start"]["protocol"],
             "num_streams": data["start"]["test_start"]["num_streams"],
 
             "UL": {
